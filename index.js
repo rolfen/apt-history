@@ -17,10 +17,12 @@ stdin.on('data', function (chunk) {
 
 stdin.on('end', function () {
 	var transactions = parseAptLog(inputChunks.join());
+
 	var firstArg = args[2];
 	var secondArg = args[3];
 	var thirdArg = args[4];
-	var negativeIndex;
+
+	var index;
 
 	/*
 
@@ -40,25 +42,29 @@ stdin.on('end', function () {
 
 	*/
 
+	var listFrom;
 
 	if(!isNaN(firstArg)) {
-		negativeIndex = parseInt(firstArg);
+		index = parseInt(firstArg);
+	} else if(firstArg && firstArg == "from" && !isNaN(secondArg)) {
+		listFrom = parseInt(secondArg);
 	}
 
-	if(!negativeIndex) {
-		var tailOffset = transactions.length - 10;
+	if(!index) {
+		// list
+		if(listFrom) {
+			var tailOffset = listFrom;
+		} else {
+			var tailOffset = transactions.length - 10;
+		}
 		var commands = transactions.map(function(transaction){
 			return(transaction.Commandline);
 		})
-		var output = commands.splice(tailOffset).map(function(command, n) {
-			return " @" + (tailOffset + n) +  " " + command;
-		});
-		output = output.reverse().map(function(l, n) {
-			return n + l;
+		var output = commands.splice(tailOffset, 10).map(function(command, n) {
+			return (tailOffset + n) +  " " + command;
 		});
 		console.log(output.join("\n"));		
 	} else {
-		var index = transactions.length - negativeIndex;
 		if (secondArg) {
 			var attributeName;
 			if(secondArg) {
