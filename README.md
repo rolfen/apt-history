@@ -1,6 +1,16 @@
 # apt-history
 Explore apt history from a history log
 
+## Installing
+
+To install globally:
+
+```
+sudo npm -g i https://github.com/rolfen/apt-history.git
+```
+
+## Using
+
 ```
 # List 10 last commands
 cat /var/log/apt/history.log |apt-history 

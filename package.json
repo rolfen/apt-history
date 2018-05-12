@@ -1,0 +1,22 @@
+{
+  "name": "apt-history",
+  "version": "1.0.0",
+  "description": "Explore apt history from a history log",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rolfen/apt-history.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rolfen/apt-history/issues"
+  },
+  "bin" : { 
+    "apt-history" : "./index.js" 
+  },
+  "homepage": "https://github.com/rolfen/apt-history#readme"
+}
