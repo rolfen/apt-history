@@ -21,6 +21,7 @@ stdin.on('end', function () {
 	var firstArg = args[2];
 	var secondArg = args[3];
 	var thirdArg = args[4];
+	var argCursor = 2;
 
 	var index;
 
@@ -42,29 +43,36 @@ stdin.on('end', function () {
 
 	*/
 
-	var listFrom;
 
-	if(!isNaN(firstArg)) {
-		index = parseInt(firstArg);
-	} else if(firstArg && firstArg == "from" && !isNaN(secondArg)) {
-		listFrom = parseInt(secondArg);
-	}
-
-	if(!index) {
+	if(!firstArg || isNaN(firstArg)) {
 		// list
-		if(listFrom) {
-			var tailOffset = listFrom;
+
+		var listIndex = "Commandline";
+		const sampleSize = 10;
+
+		if(firstArg && firstArg == "from" && !isNaN(secondArg)) {
+			var tailOffset = parseInt(secondArg);
+			argCursor += 2;
 		} else {
-			var tailOffset = transactions.length - 10;
+			var tailOffset = transactions.length - sampleSize;
 		}
-		var commands = transactions.map(function(transaction){
-			return(transaction.Commandline);
-		})
-		var output = commands.splice(tailOffset, 10).map(function(command, n) {
-			return (tailOffset + n) +  " " + command;
-		});
+
+		if(args[argCursor]) {
+			listIndex = args[argCursor];
+		}
+
+
+		var output = transactions.splice(tailOffset, sampleSize).map(function(transaction, n) {
+			if(transaction[listIndex] !== undefined) {
+				return (tailOffset + n) +  " " + transaction[listIndex];
+			} 
+		}).filter(l => l !== undefined);
+
 		console.log(output.join("\n"));		
 	} else {
+		// first argument is an index, select operation
+
+		index = parseInt(firstArg);
 		if (secondArg) {
 			var attributeName;
 			if(secondArg) {

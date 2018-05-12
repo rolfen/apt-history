@@ -22,11 +22,19 @@ List 10 last commands
 cat /var/log/apt/history.log |apt-history 
 ```
 
-List 10 commands starting from command 40
+List 10 commands starting from command the 40th operation in history.log
 
 ```
 cat /var/log/apt/history.log |apt-history from 40
 ```
+
+You can also list packages which were removed across the last 10 operations, for example
+
+```
+
+cat /var/log/apt/history.log |apt-history Install
+```
+
 
 Examine 4th command in the history log
 
