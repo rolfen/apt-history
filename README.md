@@ -1,13 +1,18 @@
 # apt-history
 Explore apt history from a history log
 
-## Installing
-
-To install globally:
+## Installing (globally)
 
 ```
 sudo npm -g i https://github.com/rolfen/apt-history.git
 ```
+
+To uninstall:
+
+```
+sudo npm -g r apt-history
+```
+
 
 ## Using
 
