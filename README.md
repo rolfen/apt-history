@@ -32,7 +32,7 @@ You can also list packages which were removed across the last 10 operations, for
 
 ```
 
-cat /var/log/apt/history.log |apt-history Install
+cat /var/log/apt/history.log |apt-history Remove
 ```
 
 
