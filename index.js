@@ -68,8 +68,7 @@ stdin.on('end', function () {
 		if (secondArg) {
 			var attributeName;
 			if(secondArg) {
-				if(thirdArg && thirdArg == "as-package-list") {
-
+				if(thirdArg && thirdArg == "as-apt-arguments") {
 					console.log(transactions[index][secondArg].replace(/\([^\(]+\)/g,'').replace(/ , /g,' '));
 				} else {
 					console.log(transactions[index][secondArg]);
