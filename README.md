@@ -7,6 +7,13 @@ Explore apt history from a history log
 sudo npm -g i https://github.com/rolfen/apt-history.git
 ```
 
+Or, alternatively:
+
+```
+git clone https://github.com/rolfen/apt-history.git
+sudo npm -g i ./apt-history
+```
+
 To uninstall:
 
 ```
