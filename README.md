@@ -25,3 +25,5 @@ apt-get remove `cat /var/log/apt/history.log| apt-history 4 Install as-apt-argum
 
 ```
 
+Other interesting scripts:
+* http://mavior.eu/apt-log/examples/
