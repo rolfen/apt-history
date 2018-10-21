@@ -69,7 +69,7 @@ It's the main purpose of this script
 Beware: this might cause more recently installed packages to be automatically uninstalled.
 
 ```
-apt-get remove `cat /var/log/apt/history.log| apt-history 4 Install as-apt-arguments`
+apt-get remove `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
 ```
 
 
