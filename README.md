@@ -29,7 +29,7 @@ List 10 last commands. The latest command is at the bottom.
 cat /var/log/apt/history.log |apt-history 
 ```
 
-List 10 commands starting from command the 40th operation in history.log
+List 10 commands starting from the 40th operation in history.log
 
 ```
 cat /var/log/apt/history.log |apt-history from 40
@@ -38,7 +38,6 @@ cat /var/log/apt/history.log |apt-history from 40
 You can also list packages which were removed across the last 10 operations, for example
 
 ```
-
 cat /var/log/apt/history.log |apt-history Remove
 ```
 
@@ -66,7 +65,8 @@ cat /var/log/apt/history.log |apt-history 4 Install --as-apt-arguments
 
 For example, this will uninstall all packages installed by the 4th command  
 It's the main purpose of this script  
-Beware: this might cause more recently installed packages to be automatically uninstalled. Because of this, it is best to use this only on the last command in the apt log.
+
+Beware: this might cause more recently installed packages to be automatically uninstalled.
 
 ```
 apt-get remove `cat /var/log/apt/history.log| apt-history 4 Install as-apt-arguments`
