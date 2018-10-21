@@ -23,7 +23,7 @@ sudo npm -g r apt-history
 
 ## Using
 
-List 10 last commands
+List 10 last commands. The latest command is at the bottom.
 
 ```
 cat /var/log/apt/history.log |apt-history 
