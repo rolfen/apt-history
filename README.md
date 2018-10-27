@@ -1,5 +1,11 @@
+
+
 # apt-history
 Explore apt history from a history log
+
+## Warning
+
+Alpha level software, not extensively tested. 
 
 ## Installing (globally)
 
@@ -61,18 +67,15 @@ Get packages installed  by 4th command
 cat /var/log/apt/history.log |apt-history 4 Install --as-apt-arguments
 ```
 
-`--as-apt-argument` formats the output to be used as apt-get argument
+`--as-apt-argument` returns a space-separated list of package names
 
-For example, this will uninstall all packages installed by the 4th command  
+For example, this will uninstall all packages installed by the 4th command (without automatically uninstalling dependants)
 It's the main purpose of this script  
 
-Beware: this might cause more recently installed packages to be automatically uninstalled.
-
 ```
-apt-get remove `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
+sudo dpkg -r --force-depends `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
 ```
 
 
 Other interesting scripts:
 * http://mavior.eu/apt-log/examples/
-as-ap
