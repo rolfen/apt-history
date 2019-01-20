@@ -3,7 +3,7 @@
 # apt-history
 Explore apt history from a history log
 
-## Warning
+## Warnings
 
 Alpha level software, not extensively tested. 
 
@@ -69,12 +69,16 @@ cat /var/log/apt/history.log |apt-history 4 Install --as-apt-arguments
 
 `--as-apt-argument` returns a space-separated list of package names
 
-For example, this will uninstall all packages installed by the 4th command (without automatically uninstalling dependants)
-It's the main purpose of this script  
+For example, this will uninstall all packages installed by the 4th command (without automatically uninstalling dependants).  
+It's the main purpose of this script.  
+
+It is safer to use `dpkg` then `apt`. apt might conceivably automatically uninstall dependant packages.
 
 ```
-sudo dpkg -r --force-depends `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
+sudo dpkg -r `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
 ```
+
+It might be useful to add `--force-depends` to the `dpkg` command.
 
 
 Other interesting scripts:
