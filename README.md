@@ -5,7 +5,7 @@ Explore apt history from a history log
 
 ## Warnings
 
-Alpha level software, not extensively tested. 
+This is more like a prototype. It's not extensively tested.
 
 ## Installing (globally)
 
