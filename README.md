@@ -69,10 +69,8 @@ cat /var/log/apt/history.log |apt-history 4 Install --as-apt-arguments
 
 `--as-apt-argument` returns a space-separated list of package names
 
-For example, this will uninstall all packages installed by the 4th command (without automatically uninstalling dependants).  
-It's the main purpose of this script.  
-
-It is safer to use `dpkg` then `apt`. apt might conceivably automatically uninstall dependant packages.
+For example, this will uninstall all packages installed by the 4th command (without automatically uninstalling dependants - that's why we use `dpkg`).  
+this is the main purpose of this script.  
 
 ```
 sudo dpkg -r `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
