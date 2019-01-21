@@ -78,8 +78,9 @@ It is safer to use `dpkg` then `apt`. apt might conceivably automatically uninst
 sudo dpkg -r `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
 ```
 
-It might be useful to add `--force-depends` to the `dpkg` command.
+It might be useful to add `--force-depends` to the `dpkg` command to ignore dependency problems.
 
+If you use `--force-depends`, then you should run `apt-get --fix-broken install` afterwards.
 
 Other interesting scripts:
 * http://mavior.eu/apt-log/examples/
