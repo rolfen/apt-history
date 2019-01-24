@@ -94,6 +94,19 @@ Here we use `dpkg -r` instead of `apt-get remove`. That is because `apt-get remo
 
 Ignoring dependency problems with `--force-depends` can create broken packages (it will print a warning to tell you), in which case you should run `apt-get --fix-broken install` afterwards.
 
+### Notes
+
+You can also extract useful information using piping and standards shell tools. For example:
+
+```
+cat /var/log/apt/history.log| grep Commandline|nl -v 0|tail 
+```
+is comparable to:
+
+```
+cat /var/log/apt/history.log |apt-history 
+```
+
 ## Additional relevant material:
 
 * https://askubuntu.com/questions/247549/is-it-possible-to-undo-an-apt-get-install-command
