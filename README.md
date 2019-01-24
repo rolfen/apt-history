@@ -5,7 +5,7 @@ Explore apt history from a history log
 
 ## Warnings
 
-This is more like a prototype. It's not extensively tested.
+This is kind of rough. It does the job for me, though.
 
 ## Installing (globally)
 
