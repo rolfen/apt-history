@@ -1,7 +1,16 @@
 
 
 # apt-history
+
 Explore apt history from a history log
+
+## Rationale
+
+By default, Debian's `apt-get install somepackage` will also install suggested and recommended packages for `somepackage`. If you change your mind and do `apt-get remove somepackage`, it will remove somepackage but not touch the suggetsted and recommended package, which will be laying around forever. This is why, sometimes, you install a package that takes up 20 megabytes, and when you remove it, only 200K get freed. These situations are quit common.
+
+Should you wish to "undo" an apt-get install operation and reclaim back all the used space, then the simplest solution is to look at the apt history log, usually in `/var/log/apt/history.log` for all the packages which were installed by `apt-get install` and remove them one by one.
+
+This node script makes it easier to inspect the apt log and to list packages for removal.
 
 ## Warnings
 
@@ -69,16 +78,23 @@ cat /var/log/apt/history.log |apt-history 4 Install --as-apt-arguments
 
 `--as-apt-argument` returns a space-separated list of package names
 
-For example, this will uninstall all packages installed by the 4th command (without automatically uninstalling dependants - that's why we use `dpkg`).  
-this is the main purpose of this script.  
+### Rolling back an apt-get install
+
+This is the main use schenario of this script.  
+
+The following will attempt to **uninstall all packages installed by command #4** (including installed suggested and recommended packages) 
 
 ```
 sudo dpkg -r `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
 ```
 
-It might be useful to add `--force-depends` to the `dpkg` command to ignore dependency problems.
+Here we use `dpkg -r` instead of `apt-get remove`. That is because `apt-get remove` will automatically remove any dependant package. For example is you do `apt-get remove evolution` it will automatically remove the whole Gnome desktop package because it depends on `evolution`.
 
-If you use `--force-depends`, then you should run `apt-get --fix-broken install` afterwards.
+`dpkg` will not do such a thing. Faced with this same problem, `dpkg` will just fail instead of automatically uninstalling dependant packages. In the case where it fails, you can add `--force-depends` to the `dpkg` command to tell it to ignore dependency problems.
 
-Other interesting scripts:
-* http://mavior.eu/apt-log/examples/
+Ignoring dependency problems with `--force-depends` can create broken packages (it will print a warning to tell you), in which case you should run `apt-get --fix-broken install` afterwards.
+
+## Additional relevant material:
+
+* https://askubuntu.com/questions/247549/is-it-possible-to-undo-an-apt-get-install-command
+ * http://mavior.eu/apt-log/examples/
