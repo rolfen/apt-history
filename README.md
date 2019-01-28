@@ -8,7 +8,7 @@ Explore apt history from a history log
 
 By default, Debian's `apt-get install somepackage` will also install suggested and recommended packages for `somepackage`. If you change your mind and do `apt-get remove somepackage`, it will remove somepackage but not touch the suggetsted and recommended package, which will be laying around forever. This is why, sometimes, you install a package that takes up 20 megabytes, and when you remove it, only 200K get freed. These situations are quit common.
 
-Should you wish to "undo" an apt-get install operation and reclaim back all the used space, then one simple solution is to look at the apt history log, usually in `/var/log/apt/history.log` for all the packages which were installed by `apt-get install` and remove them one by one.
+Should you wish to "undo" an apt-get install operation and reclaim back all the used space, then one simple solution is to look at the apt history log, usually in `/var/log/apt/history.log` for all the packages which were installed by `apt-get install somepackage` and remove them one by one.
 
 This node script makes it easier to inspect the apt log and to list packages for removal.
 
