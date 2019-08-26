@@ -1,6 +1,6 @@
 
 Start-Date: 2019-08-23  13:07:31
-Commandline: /usr/bin/unattended-upgrade
+Commandline: /usr/bin/first-unattended-upgrade
 Upgrade: tumbler:amd64 (0.2.4-1, 0.2.7-1), tumbler-common:amd64 (0.2.4-1, 0.2.7-1)
 End-Date: 2019-08-23  13:07:31
 
