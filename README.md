@@ -6,9 +6,7 @@ Explore apt history from a history log
 
 ## Rationale
 
-By default, Debian's `apt-get install somepackage` will also install suggested and recommended packages for `somepackage`. If you change your mind and do `apt-get remove somepackage`, it will remove somepackage but not touch the suggetsted and recommended package, which will be laying around forever. This is why, sometimes, you install a package that takes up 20 megabytes, and when you remove it, only 200K get freed. These situations are quit common.
-
-Should you wish to "undo" an apt-get install operation and reclaim back all the used space, then one simple solution is to look at the apt history log, usually in `/var/log/apt/history.log` for all the packages which were installed by `apt-get install` and remove them one by one.
+Should you wish to "undo" an apt-get install operation, then one simple solution is to look at the apt history log, usually in `/var/log/apt/history.log` for all the packages which were installed by `apt-get install somepackage` and remove them one by one.
 
 This node script makes it easier to inspect the apt log and to list packages for removal.
 
@@ -118,6 +116,12 @@ Since the major use case for this script is to rollback a particular package ins
 This will also make it easier to deal with packages which were installed through downloaded .deb archives.
 
 I have noticed that the output format of `apt-cache show` and of `cat /var/log/apt/history.log` are similar, so it should be possible to reuse the parsing code.
+
+#### Autoremoving suggested packages
+
+Remove all packages which were automatically installed but are not required, suggested or recommended by any installed package (watch out for circular dependencies!).
+
+`aptitude remove '?automatic!?reverse-suggests(?installed)!?reverse-depends(?installed)!?reverse-recommends(?installed)'`
 
 ## Additional relevant material:
 
