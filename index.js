@@ -28,12 +28,6 @@ stdin.on('data', function (chunk) {
 stdin.on('end', function () {
 	var transactions = parseAptLog(inputChunks.join());
 
-	var firstArg = args[0];
-	var secondArg = args[1];
-	var thirdArg = args[2];
-	var argCursor = 0;
-
-
 	/*
 
 	var atLine: undefined
@@ -83,10 +77,16 @@ stdin.on('end', function () {
 
 		propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
 
-		const sampleSize = 10;
+		// What's wrong with piping to tail? Meh. 
+		if(argv["last"] && !isNaN(argv["last"])) {
+			var sampleSize =argv["last"];
+		} else {
+			var sampleSize = 10;
+		}
+
 
 		if(argv["from"] && !isNaN(argv["from"])) {
-			var tailOffset = parseInt(secondArg);
+			var tailOffset = parseInt(argv["from"]);
 		} else {
 			var tailOffset = transactions.length - sampleSize;
 		}

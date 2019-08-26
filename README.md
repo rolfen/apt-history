@@ -47,7 +47,7 @@ cat /var/log/apt/history.log |apt-history
 List 10 commands starting from the 40th operation in history.log
 
 ```
-cat /var/log/apt/history.log |apt-history from 40
+cat /var/log/apt/history.log |apt-history --from 40
 ```
 
 You can also list packages which were removed across the last 10 operations, for example
