@@ -4,7 +4,7 @@
 cd ${BASH_SOURCE%/*}
 
 ./legacy.sh
-./new.sh
+./stable.sh
 
 # Tidy up
 cd -
