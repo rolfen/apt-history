@@ -49,8 +49,8 @@ stdin.on('end', function () {
 		propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
 
 		// What's wrong with piping to tail? Meh. 
-		if(argv["last"] && !isNaN(argv["last"])) {
-			var sampleSize =argv["last"];
+		if(argv["limit"] && !isNaN(argv["limit"])) {
+			var sampleSize =argv["limit"];
 		} else {
 			var sampleSize = 10;
 		}
