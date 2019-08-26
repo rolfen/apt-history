@@ -69,7 +69,7 @@ stdin.on('end', function () {
 			// show single property in the record
 			var out;
 			if (argv["as-apt-arguments"]) {
-				out = record[propertyName].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ');
+				out = record[propertyName].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
 			} else {
 				out = record[propertyName];
 			}
