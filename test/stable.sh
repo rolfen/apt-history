@@ -12,7 +12,7 @@ cat stdin/history_sample.log |node ../index.js > stdout/no-args.out
 cat stdin/short_history_sample.log |node ../index.js > stdout/short-input.out
 
 # show only last two records
-cat stdin/history_sample.log |node ../index.js --last 2 > stdout/last-2.out
+cat stdin/history_sample.log |node ../index.js --limit 2 > stdout/last-2.out
 
 # examine single record
 cat stdin/history_sample.log |node ../index.js 29 > stdout/single-record.out
