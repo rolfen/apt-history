@@ -1,0 +1,10 @@
+28 apt-get install darktable
+29 apt-get install fotoxx
+30 apt-get purge fotoxx
+31 apt-get autoremove
+32 apt-get purge darktable
+33 apt-get autoremove
+34 apt-get purge ufraw
+35 apt-get install rawtherapee
+36 apt-get install mtp-tools
+37 apt-get install go-mtpfs

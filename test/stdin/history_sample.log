@@ -1,0 +1,202 @@
+
+Start-Date: 2019-08-23  13:07:31
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: tumbler:amd64 (0.2.4-1, 0.2.7-1), tumbler-common:amd64 (0.2.4-1, 0.2.7-1)
+End-Date: 2019-08-23  13:07:31
+
+Start-Date: 2019-08-23  13:07:39
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5sql5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:07:39
+
+Start-Date: 2019-08-23  13:07:49
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libsqlite3-0:amd64 (3.29.0-1, 3.29.0-2), sqlite3:amd64 (3.29.0-1, 3.29.0-2)
+End-Date: 2019-08-23  13:07:51
+
+Start-Date: 2019-08-23  13:07:59
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libgsf-1-common:amd64 (1.14.45-1, 1.14.46-1)
+End-Date: 2019-08-23  13:07:59
+
+Start-Date: 2019-08-23  13:08:07
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5test5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:08:07
+
+Start-Date: 2019-08-23  13:08:14
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libgsf-bin:amd64 (1.14.45-1, 1.14.46-1)
+End-Date: 2019-08-23  13:08:15
+
+Start-Date: 2019-08-23  13:08:22
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: xterm:amd64 (348-1, 348-2)
+End-Date: 2019-08-23  13:08:24
+
+Start-Date: 2019-08-23  13:08:31
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: thunar-data:amd64 (1.8.7-1, 1.8.9-1), thunar:amd64 (1.8.7-1, 1.8.9-1)
+End-Date: 2019-08-23  13:08:34
+
+Start-Date: 2019-08-23  13:08:41
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: thunar-volman:amd64 (0.9.1-1, 0.9.5-1)
+End-Date: 2019-08-23  13:08:43
+
+Start-Date: 2019-08-23  13:08:50
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: node-graceful-fs:amd64 (4.2.1-1, 4.2.2-1)
+End-Date: 2019-08-23  13:08:51
+
+Start-Date: 2019-08-23  13:08:58
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5widgets5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:08:59
+
+Start-Date: 2019-08-23  13:09:06
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5xml5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:09:07
+
+Start-Date: 2019-08-23  13:09:14
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5printsupport5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:09:16
+
+Start-Date: 2019-08-23  13:09:23
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libtumbler-1-0:amd64 (0.2.4-1, 0.2.7-1)
+End-Date: 2019-08-23  13:09:24
+
+Start-Date: 2019-08-23  13:09:32
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: qt5-gtk-platformtheme:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4), libqt5gui5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:09:33
+
+Start-Date: 2019-08-23  13:09:40
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libgsf-1-114:amd64 (1.14.45-1, 1.14.46-1)
+End-Date: 2019-08-23  13:09:41
+
+Start-Date: 2019-08-23  13:09:47
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5dbus5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:09:48
+
+Start-Date: 2019-08-23  13:09:55
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libtiff5:amd64 (4.0.10-4, 4.0.10+git190818-1)
+End-Date: 2019-08-23  13:09:56
+
+Start-Date: 2019-08-23  13:10:03
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5core5a:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:10:04
+
+Start-Date: 2019-08-23  13:10:12
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5network5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:10:12
+
+Start-Date: 2019-08-23  13:10:21
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libqt5sql5-sqlite:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)
+End-Date: 2019-08-23  13:10:21
+
+Start-Date: 2019-08-23  13:10:28
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libaio1:amd64 (0.3.112-4, 0.3.112-5)
+End-Date: 2019-08-23  13:10:28
+
+Start-Date: 2019-08-23  13:10:36
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libthunarx-3-0:amd64 (1.8.7-1, 1.8.9-1)
+End-Date: 2019-08-23  13:10:36
+
+Start-Date: 2019-08-23  13:10:43
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: libgraphite2-3:amd64 (1.3.13-7, 1.3.13-8)
+End-Date: 2019-08-23  13:10:44
+
+Start-Date: 2019-08-23  13:10:51
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: lsb-base:amd64 (10.2019051400, 11.1.0)
+End-Date: 2019-08-23  13:10:52
+
+Start-Date: 2019-08-23  13:11:03
+Commandline: /usr/bin/unattended-upgrade
+Upgrade: debhelper:amd64 (12.4, 12.5.3)
+End-Date: 2019-08-23  13:11:09
+
+Start-Date: 2019-08-23  14:21:38
+Commandline: apt-get install geany
+Requested-By: rolf (1000)
+Install: geany:amd64 (1.35-1), geany-common:amd64 (1.35-1, automatic)
+End-Date: 2019-08-23  14:21:40
+
+Start-Date: 2019-08-24  04:41:55
+Commandline: apt-get install parallel
+Requested-By: rolf (1000)
+Install: sysstat:amd64 (12.0.5-3, automatic), parallel:amd64 (20161222-1.1)
+End-Date: 2019-08-24  04:41:58
+
+Start-Date: 2019-08-25  14:27:13
+Commandline: apt-get install darktable
+Requested-By: rolf (1000)
+Install: libgraphicsmagick-q16-3:amd64 (1.4+really1.3.33-1, automatic), libgusb2:amd64 (0.3.0-1, automatic), libieee1284-3:amd64 (0.2.11-13+b1, automatic), sane-utils:amd64 (1.0.27-3.2, automatic), libsnmp-base:amd64 (5.7.3+dfsg-5, automatic), colord-data:amd64 (1.4.3-4, automatic), libflickcurl0:amd64 (1.26-4, automatic), libjs-scriptaculous:amd64 (1.9.0-2, automatic), libsnmp30:amd64 (5.7.3+dfsg-5, automatic), libosmgpsmap-1.0-1:amd64 (1.1.0-5+b1, automatic), libjs-prototype:amd64 (1.7.1-3, automatic), darktable:amd64 (2.6.0-1), libcolord-gtk1:amd64 (0.1.26-2, automatic), libsane-common:amd64 (1.0.27-3.2, automatic), libcolorhug2:amd64 (1.4.3-4, automatic), libsane:amd64 (1.0.27-3.2, automatic), colord:amd64 (1.4.3-4, automatic)
+End-Date: 2019-08-25  14:27:23
+
+Start-Date: 2019-08-25  14:27:51
+Commandline: apt-get install fotoxx
+Requested-By: rolf (1000)
+Install: libchamplain-gtk-0.12-0:amd64 (0.12.19-2, automatic), fotoxx:amd64 (18.07.2-1), libchamplain-0.12-0:amd64 (0.12.19-2, automatic), fotoxx-common:amd64 (18.07.2-1, automatic)
+End-Date: 2019-08-25  14:27:54
+
+Start-Date: 2019-08-25  14:35:44
+Commandline: apt-get purge fotoxx
+Requested-By: rolf (1000)
+Purge: fotoxx:amd64 (18.07.2-1)
+End-Date: 2019-08-25  14:35:45
+
+Start-Date: 2019-08-25  14:35:57
+Commandline: apt-get autoremove
+Requested-By: rolf (1000)
+Remove: libchamplain-gtk-0.12-0:amd64 (0.12.19-2), libchamplain-0.12-0:amd64 (0.12.19-2), fotoxx-common:amd64 (18.07.2-1)
+End-Date: 2019-08-25  14:35:58
+
+Start-Date: 2019-08-25  21:47:37
+Commandline: apt-get purge darktable
+Requested-By: rolf (1000)
+Purge: darktable:amd64 (2.6.0-1)
+End-Date: 2019-08-25  21:47:39
+
+Start-Date: 2019-08-25  21:47:46
+Commandline: apt-get autoremove
+Requested-By: rolf (1000)
+Remove: libgraphicsmagick-q16-3:amd64 (1.4+really1.3.33-1), libflickcurl0:amd64 (1.26-4), libjs-scriptaculous:amd64 (1.9.0-2), libosmgpsmap-1.0-1:amd64 (1.1.0-5+b1), libjs-prototype:amd64 (1.7.1-3), libcolord-gtk1:amd64 (0.1.26-2)
+End-Date: 2019-08-25  21:47:47
+
+Start-Date: 2019-08-25  21:51:58
+Commandline: apt-get purge ufraw
+Requested-By: rolf (1000)
+Purge: ufraw:amd64 (0.22-4)
+End-Date: 2019-08-25  21:52:00
+
+Start-Date: 2019-08-25  22:00:11
+Commandline: apt-get install rawtherapee
+Requested-By: rolf (1000)
+Install: libiptcdata0:amd64 (1.0.5-2.1, automatic), rawtherapee-data:amd64 (5.6-1, automatic), rawtherapee:amd64 (5.6-1)
+End-Date: 2019-08-25  22:00:16
+
+Start-Date: 2019-08-26  03:28:27
+Commandline: apt-get install mtp-tools
+Requested-By: rolf (1000)
+Install: mtp-tools:amd64 (1.1.16-2)
+End-Date: 2019-08-26  03:28:29
+
+Start-Date: 2019-08-26  03:29:32
+Commandline: apt-get install go-mtpfs
+Requested-By: rolf (1000)
+Install: go-mtpfs:amd64 (0.0~git20180209.d6f8f3c-1+b1)
+End-Date: 2019-08-26  03:29:32
