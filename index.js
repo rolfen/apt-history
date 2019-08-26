@@ -9,7 +9,7 @@
 
 'use strict';
 
-// var argv = require('minimist')(process.argv.slice(2));
+var argv = require('minimist')(process.argv.slice(2));
 
 var args = process.argv.slice(2);
 
@@ -33,7 +33,6 @@ stdin.on('end', function () {
 	var thirdArg = args[2];
 	var argCursor = 0;
 
-	var index;
 
 	/*
 
@@ -54,49 +53,51 @@ stdin.on('end', function () {
 	*/
 
 
-	if(!firstArg || isNaN(firstArg)) {
+	var propertyName = "Commandline"; // default
+
+	if(!isNaN(argv["_"][0])) {
+
+		// first argument is a numerical index, show single record
+
+		var index = parseInt(argv["_"][0]);
+		var record = transactions[index];
+
+		// then second argument may be the property name
+		propertyName = argv["_"][1] ? argv["_"][1] : null;
+
+		if (propertyName) {
+			// show single property in the record
+			var out;
+			if (argv["as-apt-arguments"]) {
+				out = record[propertyName].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ');
+			} else {
+				out = record[propertyName];
+			}
+			console.log(out);
+		} else {
+			console.dir(record);
+		}
+
+	} else {
 		// list
 
-		var listIndex = "Commandline";
+		propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
+
 		const sampleSize = 10;
 
-		if(firstArg && firstArg == "from" && !isNaN(secondArg)) {
+		if(argv["from"] && !isNaN(argv["from"])) {
 			var tailOffset = parseInt(secondArg);
-			argCursor += 2;
 		} else {
 			var tailOffset = transactions.length - sampleSize;
 		}
 
-		if(args[argCursor]) {
-			listIndex = args[argCursor];
-		}
-
-
 		var output = transactions.splice(tailOffset, sampleSize).map(function(transaction, n) {
-			if(transaction[listIndex] !== undefined) {
-				return (tailOffset + n) +  " " + transaction[listIndex];
+			if(transaction[propertyName] !== undefined) {
+				return (tailOffset + n) +  " " + transaction[propertyName];
 			} 
 		}).filter(l => l !== undefined);
 
 		console.log(output.join("\n"));		
-	} else {
-		// first argument is an index, select operation
-
-		index = parseInt(firstArg);
-		if (secondArg) {
-			var attributeName;
-			if(secondArg) {
-				if(thirdArg && thirdArg == "--as-apt-arguments") {
-					console.log(transactions[index][secondArg].replace(/\([^\(]+\)/g,'').replace(/ , /g,' '));
-				} else {
-					console.log(transactions[index][secondArg]);
-				}
-			} else {
-				console.log(transactions[index]);
-			} 
-		} else {
-			console.log(transactions[index]);
-		}
 	}
 });
 
