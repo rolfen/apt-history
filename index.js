@@ -1,18 +1,8 @@
 #!/usr/bin/env node
 
-/**
- * Todo: I have installed minimist.
- *       Should write tests for the whole script
- *		 Then breakdown old argument parsing code and 
- *       move it to minimist.
- **/
-
 'use strict';
 
 var argv = require('minimist')(process.argv.slice(2));
-
-var args = process.argv.slice(2);
-
 
 var stdin = process.stdin,
     stdout = process.stdout,
@@ -27,25 +17,6 @@ stdin.on('data', function (chunk) {
 
 stdin.on('end', function () {
 	var transactions = parseAptLog(inputChunks.join());
-
-	/*
-
-	var atLine: undefined
-	var asPackageList = false;
-	var getAttribute = undefined;
-
-	args.splice(2).forEach(function(arg, i){
-		if(arg[0] == "@") {
-			atLine = arg.substr(1);
-		} else if(arg == "package-list") {
-			asPackageList = true;
-		} else if (arg == "get-attribute") {
-			getAttribute = arg[i+1];
-		}
-	});
-
-	*/
-
 
 	var propertyName = "Commandline"; // default
 
