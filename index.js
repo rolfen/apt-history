@@ -1,8 +1,18 @@
 #!/usr/bin/env node
 
+/**
+ * Todo: I have installed minimist.
+ *       Should write tests for the whole script
+ *		 Then breakdown old argument parsing code and 
+ *       move it to minimist.
+ **/
+
 'use strict';
 
-var args = process.argv;
+// var argv = require('minimist')(process.argv.slice(2));
+
+var args = process.argv.slice(2);
+
 
 var stdin = process.stdin,
     stdout = process.stdout,
@@ -18,10 +28,10 @@ stdin.on('data', function (chunk) {
 stdin.on('end', function () {
 	var transactions = parseAptLog(inputChunks.join());
 
-	var firstArg = args[2];
-	var secondArg = args[3];
-	var thirdArg = args[4];
-	var argCursor = 2;
+	var firstArg = args[0];
+	var secondArg = args[1];
+	var thirdArg = args[2];
+	var argCursor = 0;
 
 	var index;
 

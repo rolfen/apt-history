@@ -15,8 +15,11 @@
   "bugs": {
     "url": "https://github.com/rolfen/apt-history/issues"
   },
-  "bin" : { 
-    "apt-history" : "./index.js" 
+  "bin": {
+    "apt-history": "./index.js"
   },
-  "homepage": "https://github.com/rolfen/apt-history#readme"
+  "homepage": "https://github.com/rolfen/apt-history#readme",
+  "dependencies": {
+    "minimist": "^1.2.0"
+  }
 }
