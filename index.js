@@ -58,7 +58,7 @@ stdin.on('end', function () {
 		// Having sample size bigger than actual data messes with indices
 		sampleSize = Math.min(sampleSize, transactions.length);
 
-		if(argv["from"] && !isNaN(argv["from"])) {
+		if((typeof(argv["from"]) !== "undefined") && !isNaN(argv["from"])) {
 			var tailOffset = parseInt(argv["from"]);
 		} else {
 			var tailOffset = transactions.length - sampleSize;
