@@ -20,6 +20,9 @@ cat stdin/history_sample.log |node ../index.js 29 > stdout/single-record.out
 # apt-argument list output format
 cat stdin/history_sample.log |node ../index.js 29 Install --as-apt-arguments > stdout/as-apt-arguments.out
 
+# Properly handle --from 0
+cat stdin/history_sample.log |node ../index.js --from 0 --limit 1 > stdout/from-zero.out
+
 # Done! Show test result deviations
 git diff ./stdout
 
