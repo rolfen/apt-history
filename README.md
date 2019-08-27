@@ -24,41 +24,41 @@ sudo npm -g r apt-history
 
 ## Using
 
-By default, lists the last 10 commands (this number can be changed with `--limit`).
-The commands are numerotated with the first command in the input being zero.
-The latest command is at the bottom.
-
 ```
 apt-history 
 ```
 
-List 10 commands starting from the 40th operation in history.log
+By default, it reads last 10 "entries"/"operations" (this number can be changed with `--limit`) and list commands.
+The entries are numbered following their sequence in the APT log, zero based.
+The latest one is at the bottom.
+
+To read 5 entries starting from #40 one in history.log
 
 ```
-apt-history --from 40
+apt-history --from 40 --limit 5
 ```
 
-You can also list packages which were removed, for example
+You can also list packages removed packages, for example
 
 ```
 apt-history Remove
 ```
 
 
-Examine 4th command in the history log
+Examine operation #4 in the history log
 
 ```
 apt-history 4
 ```
 
-Get property "Purge" of the 4th command  
+Get property "Purge" of the operation  
 This would be the list of packages purged by the command
 
 ```
 apt-history 4 Purge
 ```
 
-Get packages installed  by 4th command. `--as-apt-argument` returns a space-separated list of package names.
+Get packages installed during this operation. `--as-apt-argument` returns a space-separated list of package names.
 
 ```
 apt-history 4 Install --as-apt-arguments
