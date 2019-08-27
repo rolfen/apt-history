@@ -2,21 +2,53 @@
 
 'use strict';
 
+const defaultLogFile = "/var/log/apt/history.log";
+
+const process = require('process');
 var argv = require('minimist')(process.argv.slice(2));
+var fs = require('fs');
+ 
 
-var stdin = process.stdin,
-    stdout = process.stdout,
-    inputChunks = [];
+if(argv.input) {
+	// input file is specified
+	fs.readFile(argv.input, 'utf8', function(err, content) {
+	    main(content);
+	});
+} else if(argv.s || argv.stdin) {
+	// read from stdin
+	readStdin(function(stdinText) {
+		main(stdinText);
+	});	
+} else {
+	// try to find apt log
+	fs.readFile(defaultLogFile, 'utf8', function(err, content) {
+	    main(content);
+	});
+}
 
-stdin.resume();
-stdin.setEncoding('utf8');
+function readStdin(onEnd) {
+	var stdin = process.stdin;
+	var inputChunks = [];
 
-stdin.on('data', function (chunk) {
-    inputChunks.push(chunk);
-});
+	stdin.resume();
+	stdin.setEncoding('utf8');
 
-stdin.on('end', function () {
-	var transactions = parseAptLog(inputChunks.join());
+	stdin.on('data', function (chunk) {
+	    inputChunks.push(chunk);
+	});
+
+	stdin.on('end', function() {
+		var stdinText = inputChunks.join();
+		onEnd(stdinText);
+	});
+}
+
+
+function main(logText) {
+
+	var stdout = process.stdout;
+
+	var transactions = parseAptLog(logText);
 
 	var propertyName = "Commandline"; // default
 
@@ -33,10 +65,12 @@ stdin.on('end', function () {
 		if (propertyName) {
 			// show single property in the record
 			var out;
-			if (argv["as-apt-arguments"]) {
-				out = record[propertyName].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
-			} else {
-				out = record[propertyName];
+			if(typeof(record) !== "undefined") {
+				if (argv["as-apt-arguments"]) {
+					out = record[propertyName].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
+				} else {
+					out = record[propertyName];
+				}				
 			}
 			console.log(out);
 		} else {
@@ -58,7 +92,7 @@ stdin.on('end', function () {
 		// Having sample size bigger than actual data messes with indices
 		sampleSize = Math.min(sampleSize, transactions.length);
 
-		if(argv["from"] && !isNaN(argv["from"])) {
+		if((typeof(argv["from"]) !== "undefined") && !isNaN(argv["from"])) {
 			var tailOffset = parseInt(argv["from"]);
 		} else {
 			var tailOffset = transactions.length - sampleSize;
@@ -72,7 +106,7 @@ stdin.on('end', function () {
 
 		console.log(output.join("\n"));		
 	}
-});
+};
 
 function parseAptLog(logText) {
 	// parse APT history log (string) into object
