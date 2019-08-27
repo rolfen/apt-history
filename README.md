@@ -84,7 +84,7 @@ apt-history --input /var/log/apt/history.log
 The following will attempt to **uninstall all packages installed by command #4** (including installed suggested and recommended packages) 
 
 ```
-sudo dpkg -r `cat /var/log/apt/history.log| apt-history 4 Install --as-apt-arguments`
+sudo dpkg -r `apt-history 4 Install --as-apt-arguments`
 ```
 
 Here we use `dpkg -r` instead of `apt-get remove`. That is because `apt-get remove` will automatically remove any dependant package. For example is you do `apt-get remove evolution` it will automatically remove the whole Gnome desktop package because it depends on `evolution`.
