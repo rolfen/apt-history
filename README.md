@@ -1,6 +1,6 @@
 # apt-history
 
-Explore the apt history
+Explore the APT history
 
 ## Installing (globally)
 
