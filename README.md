@@ -69,7 +69,7 @@ By default, `apt-history` looks for the APT log at `/var/log/apt/history.log`.
 `-s` or `--stdin` allows you to pipe the APT log instead.
 
 ```
-cat /var/log/apt/history.log |apt-history
+cat /var/log/apt/history.log |apt-history -s
 ```
 
 You can also specify the location of the log file
