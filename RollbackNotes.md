@@ -1,3 +1,7 @@
+Here we discuss a *potential* implementation for rolling back APT operations.
+
+## Discussion
+
 When uninstalling a package, it would be nice to check whether this package is a dependency or suggests/recommends of a subsequently installed package, in which case it would better be kept.
 
 Example:
