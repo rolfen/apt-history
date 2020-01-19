@@ -50,7 +50,7 @@ function main(logText) {
 
 	var transactions = parseAptLog(logText);
 
-	var propertyName = "Commandline"; // default
+	var propertyNames = ["Commandline"]; // default
 
 	if(!isNaN(argv["_"][0])) {
 
@@ -59,18 +59,18 @@ function main(logText) {
 		var index = parseInt(argv["_"][0]);
 		var record = transactions[index];
 
-		// then second argument may be the property name
-		propertyName = argv["_"][1] ? argv["_"][1] : null;
+		// then second argument may be the property names
+		propertyNames = argv["_"][1] ? argv["_"][1].split(',') : null;
 
-		if (propertyName) {
-			// show single property in the record
-			var out;
+		if (propertyNames) {
+			// show specific properties in the record
+			var out = propertyNames.map(function(propName, n){
+				return(record[propName]);
+			}).join("\t");
 			if(typeof(record) !== "undefined") {
 				if (argv["as-apt-arguments"]) {
-					out = record[propertyName].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
-				} else {
-					out = record[propertyName];
-				}				
+					out = out.replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
+				} 			
 			}
 			console.log(out);
 		} else {
@@ -80,7 +80,7 @@ function main(logText) {
 	} else {
 		// list
 
-		propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
+		propertyNames = argv["_"][0] ? argv["_"][0].split(',') : propertyNames;
 
 		// What's wrong with piping to tail? Meh. 
 		if(argv["limit"] && !isNaN(argv["limit"])) {
@@ -99,9 +99,11 @@ function main(logText) {
 		}
 
 		var output = transactions.splice(tailOffset, sampleSize).map(function(transaction, n) {
-			if(transaction[propertyName] !== undefined) {
-				return (tailOffset + n) +  " " + transaction[propertyName];
-			} 
+			//if(transaction[propertyName] !== undefined) {
+				return (tailOffset + n) +  "\t" + propertyNames.map(function(propName,n ){
+					return transaction[propName];
+				}).join("\t");
+			//} 
 		}).filter(l => l !== undefined);
 
 		console.log(output.join("\n"));		

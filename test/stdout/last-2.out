@@ -1,2 +1,2 @@
-36 apt-get install mtp-tools
-37 apt-get install go-mtpfs
+36	apt-get install mtp-tools
+37	apt-get install go-mtpfs
