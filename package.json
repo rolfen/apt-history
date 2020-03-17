@@ -20,6 +20,6 @@
   },
   "homepage": "https://github.com/rolfen/apt-history#readme",
   "dependencies": {
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.2"
   }
 }
