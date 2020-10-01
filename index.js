@@ -9,6 +9,21 @@ var argv = require('minimist')(process.argv.slice(2));
 var fs = require('fs');
  
 
+if(argv.help) {
+	console.log("LIST");
+	console.log("  apt-history [<Property>] [--from <N>] [--limit <N>]");
+	console.log("SINGLE ITEM (with index N)");
+	console.log("  apt-history <N> [<Property>]");
+	console.log("COMMON OPTIONS");
+	console.log("  Specify log: { --input <log file> | --stdin }");
+	console.log("NOTES");
+	console.log("  Some common APT properties:");
+	console.log("    Commandline, Requested-By, Install, Start-Date, End-Date, Purge");
+	console.log("  Default values of arguments:");
+	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
+	return;
+} 
+
 if(argv.input) {
 	// input file is specified
 	fs.readFile(argv.input, 'utf8', function(err, content) {
