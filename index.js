@@ -113,7 +113,7 @@ function main(logText) {
 		var output = transactions
 			.splice(tailOffset, sampleSize)
 			.filter(t => t[propertyName] !== undefined)
-			.map(t => [t['_index'], t['propertyName']] )
+			.map(t => [t['_index'], t[propertyName]] )
 		;
 
 		printList(output);		
