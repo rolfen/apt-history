@@ -65,7 +65,7 @@ function main(logText) {
 
 	var transactions = parseAptLog(logText);
 
-	var propertyNames = ["Commandline"]; // default
+	var propertyName = "Commandline"; // default
 
 	if(!isNaN(argv["_"][0])) {
 
@@ -74,14 +74,11 @@ function main(logText) {
 		var index = parseInt(argv["_"][0]);
 		var record = transactions[index];
 
-		// then second argument may be the property names
-		propertyNames = argv["_"][1] ? argv["_"][1].split(',') : null;
+		// then second argument may be the property name
 
-		if (propertyNames) {
+		if (argv["_"][1]) {
 			// show specific properties in the record
-			var out = propertyNames.map(function(propName, n){
-				return(record[propName]);
-			}).join("\t");
+			var out = record[argv["_"][1]];
 			if(typeof(record) !== "undefined") {
 				if (argv["as-apt-arguments"]) {
 					out = out.replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
@@ -95,7 +92,7 @@ function main(logText) {
 	} else {
 		// list
 
-		propertyNames = argv["_"][0] ? argv["_"][0].split(',') : propertyNames;
+		propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
 
 		// What's wrong with piping to tail? Meh. 
 		if(argv["limit"] && !isNaN(argv["limit"])) {
@@ -114,16 +111,9 @@ function main(logText) {
 		}
 
 		var output = transactions
-			.filter(t => t[propertyNames] !== undefined)
 			.splice(tailOffset, sampleSize)
-			.map(function(transaction, n) {
-				var index = transaction['_index'];
-				var cells = propertyNames.map(function(propName,n ){
-					return transaction[propName];
-				});
-				return ([index].concat(cells));
-			})
-			.filter(l => l !== undefined)
+			.filter(t => t[propertyName] !== undefined)
+			.map(t => [t['_index'], t['propertyName']] )
 		;
 
 		printList(output);		
