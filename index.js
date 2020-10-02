@@ -11,15 +11,15 @@ var fs = require('fs');
 
 if(argv.help) {
 	console.log("LIST");
-	console.log("  apt-history [<Property>] [--from <N>] [--limit <N>]");
-	console.log("SINGLE ITEM (with index N)");
-	console.log("  apt-history <N> [<Property>]");
+	console.log("  apt-history [<property>] [--from <N>] [--limit <N>]");
+	console.log("SINGLE ITEM");
+	console.log("  apt-history <index> [<property>] [--as-apt-arguments]");
 	console.log("COMMON OPTIONS");
-	console.log("  Specify log: { --input <log file> | --stdin }");
+	console.log("  Specify data: {--input <file>|--stdin}");
 	console.log("NOTES");
-	console.log("  Some common APT properties:");
-	console.log("    Commandline, Requested-By, Install, Start-Date, End-Date, Purge");
-	console.log("  Default values of arguments:");
+	console.log("  Common APT properties:");
+	console.log("    Commandline, Requested-By, Install, Start-Date, End-Date, Purge, Remove");
+	console.log("  Defaults:");
 	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
 	return;
 } 
