@@ -117,7 +117,7 @@ function main(logText) {
 			.filter(t => t[propertyNames] !== undefined)
 			.splice(tailOffset, sampleSize)
 			.map(function(transaction, n) {
-				var index = tailOffset + n;
+				var index = transaction['_index'];
 				var cells = propertyNames.map(function(propName,n ){
 					return transaction[propName];
 				});
