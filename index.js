@@ -142,13 +142,15 @@ function printProperty(str) {
 }
 
 function printRecord(record) {
-	console.dir(record);
+	var newRecord = Object.assign({}, record);
+	delete newRecord._index;
+	console.dir(newRecord);
 }
 
 function parseAptLog(logText) {
 	// parse APT history log (string) into object
 	return ( 
-		logText.split("\n\n").map(function(transaction){
+		logText.split("\n\n").map(function(transaction, n){
 	    	var lines = transaction.split("\n");
 	    	var attributes = {};
 	    	lines.forEach(function(line){
@@ -157,6 +159,7 @@ function parseAptLog(logText) {
 		    		attributes[attributeTuple[0]] = attributeTuple[1];
 	    		}
 	    	})
+	    	attributes["_index"] = n;
 	    	return(attributes);
 	    })
     );
