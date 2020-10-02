@@ -87,9 +87,9 @@ function main(logText) {
 					out = out.replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim();
 				} 			
 			}
-			console.log(out);
+			printProperty(out);
 		} else {
-			console.dir(record);
+			printRecord(record);
 		}
 
 	} else {
@@ -113,17 +113,37 @@ function main(logText) {
 			var tailOffset = transactions.length - sampleSize;
 		}
 
-		var output = transactions.splice(tailOffset, sampleSize).map(function(transaction, n) {
-			//if(transaction[propertyName] !== undefined) {
-				return (tailOffset + n) +  "\t" + propertyNames.map(function(propName,n ){
+		var output = transactions
+			.filter(t => t[propertyNames] !== undefined)
+			.splice(tailOffset, sampleSize)
+			.map(function(transaction, n) {
+				var index = tailOffset + n;
+				var cells = propertyNames.map(function(propName,n ){
 					return transaction[propName];
-				}).join("\t");
-			//} 
-		}).filter(l => l !== undefined);
+				});
+				return ([index].concat(cells));
+			})
+			.filter(l => l !== undefined)
+		;
 
-		console.log(output.join("\n"));		
+		printList(output);		
 	}
 };
+
+function printList(arr) {
+	var str = arr.map((row) => {
+		return(row.join("\t"));
+	}).join("\n");
+	console.log(str);
+}
+
+function printProperty(str) {
+	console.log(str);
+}
+
+function printRecord(record) {
+	console.dir(record);
+}
 
 function parseAptLog(logText) {
 	// parse APT history log (string) into object
