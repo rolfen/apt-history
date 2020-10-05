@@ -20,9 +20,6 @@ cat stdin/history_sample.log |node ../index.js 29 -s > stdout/single-record.out
 # apt-argument list output format
 cat stdin/history_sample.log |node ../index.js 29 Install --as-apt-arguments -s > stdout/as-apt-arguments.out
 
-# multiple property list
-cat stdin/history_sample.log |node ../index.js Start-Date,End-Date -s > stdout/multiple-list.out
-
 # Properly handle --from 0
 cat stdin/history_sample.log |node ../index.js --from 0 --limit 1 -s > stdout/from-zero.out
 
