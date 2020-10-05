@@ -110,11 +110,19 @@ function main(logText) {
 			var tailOffset = transactions.length - sampleSize;
 		}
 
-		var output = transactions
-			.splice(tailOffset, sampleSize)
-			.filter(t => t[propertyName] !== undefined)
-			.map(t => [t['_index'], t[propertyName]] )
-		;
+
+		var output = [];
+
+
+		for (let i = transactions.length; i > 0; i--) {		// loop from the end
+			let t = transactions[i - 1]; // zero-based index
+			if (t[propertyName] !== undefined) {
+				output.unshift([t['_index'], t[propertyName]]); // this is one output line
+			}
+			if (output.length == sampleSize) {
+				break;
+			}
+		}
 
 		printList(output);		
 	}
