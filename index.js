@@ -2,12 +2,12 @@
 
 'use strict';
 
-const defaultLogFile = "/var/log/apt/history.log";
+const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
 
 const process = require('process');
-var argv = require('minimist')(process.argv.slice(2));
-var fs = require('fs');
- 
+const argv = require('minimist')(process.argv.slice(2));
+const assert = require('assert').strict;
+const fs = require('fs');
 
 if(argv.help) {
 	console.log("LIST");
@@ -23,6 +23,141 @@ if(argv.help) {
 	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
 	return;
 } 
+
+
+
+function getEnv() {
+	// builds the env (environment) object based on defaults and on command line arguments (argv)
+
+	// parse command line arguments and set options
+
+	var env = { // defaults
+		'isListMode' : true,
+		'isStdinInput' : false,
+		'selectedProperty' : null,
+		'inputFilePath' : DEFAULT_LOG_FILE,
+		'sampleSize' : 10,
+		'startIndex' : null // null = automatic
+	};
+
+	if(!isNaN(argv["_"][0])) {
+		// first argument is a numerical index, show single record
+		env.isListMode = false;
+		if(argv["_"][1]) {
+			// second argument may be the property name
+			env.selectedProperty = argv["_"][1];
+		}
+	} else {
+		// list mode
+		if(argv["_"][0]) {
+			env.selectedProperty = argv["_"][0];
+		} else {
+			env.selectedProperty = 'Commandline';
+		}
+	}
+
+	if(argv.s || argv.stdin) {
+		env.isStdinInput = true;
+	} else if(argv.input) {
+		env.inputFilePath = argv.input;
+	}
+
+	if(argv["limit"] && !isNaN(argv["limit"])) {
+		env.sampleSize = argv["limit"];
+	} 
+
+	if(argv["from"] && !isNaN(argv["from"])) {
+		env.startIndex = parseInt(argv["from"]);
+	}
+
+	return env;
+
+}
+
+
+function getInputFh(env) {
+
+	// gets input file handle
+	
+	const fh;
+	
+	if(env.isStdinInput) {
+		fh = process.stdin;
+	} else {
+		fh = fs.createReadStream(env.inputFilePath);
+	}
+	
+	return fh;
+}
+
+
+function readFh(env, results, fh, onParagraph) {
+
+	// reads text stream from opened file handle fh and calls onParagraph for every encountered paragraph
+
+	var index = 0;
+	var buffer = '';
+
+	fh.setEncoding('utf8');
+
+	fh.on('data', function (chunk) {
+		let split = chunk.split("\n\n");
+		buffer += split[0];
+		if(split.length > 1) {
+			split.slice(1).forEach((slice) => {
+				onParagraph(env, results, buffer, index);
+				buffer = '';
+				index ++;
+				buffer += slice;
+			});
+		}
+	});
+
+	fh.on('end', function() {
+		if (buffer.length > 0) {
+			onParagraph(env, results, buffer, index);
+		}
+	});
+}
+
+
+function paragraphReceived(env, results, paragraphText, index) {
+
+	// processed paragraph text; splits it into properties, filter them, and push the results to results object
+
+	var lines = paragraphText.split("\n");
+	var props = {};
+	lines.forEach(function(line){
+		var [propKey, propVal] = line.split(': ',2);
+		if( propKey )  {
+			if ( !env.selectedProperty || (env.selectedProperty == propKey) ) {
+	    		props[propKey] = propVal;
+			}
+		}
+	})
+	results.pushParagraph(props, index);
+}
+
+
+Class Results(env) {
+
+	// holds selected data
+
+	constructor() {
+		this.env = env;
+		this.data = [];
+	}
+
+	pushParagraph(properties, index) {
+		this.data.push({'index': index, 'properties': properties });
+	}
+}
+
+// ---------------
+
+
+
+/*
 
 if(argv.input) {
 	// input file is specified
@@ -41,29 +176,13 @@ if(argv.input) {
 	});
 }
 
-function readStdin(onEnd) {
-	var stdin = process.stdin;
-	var inputChunks = [];
+*/
 
-	stdin.resume();
-	stdin.setEncoding('utf8');
-
-	stdin.on('data', function (chunk) {
-	    inputChunks.push(chunk);
-	});
-
-	stdin.on('end', function() {
-		var stdinText = inputChunks.join();
-		onEnd(stdinText);
-	});
-}
 
 
 function main(logText) {
 
 	var stdout = process.stdout;
-
-	var transactions = parseAptLog(logText);
 
 	var propertyName = "Commandline"; // default
 
@@ -72,7 +191,10 @@ function main(logText) {
 		// first argument is a numerical index, show single record
 
 		var index = parseInt(argv["_"][0]);
-		var record = transactions[index];
+
+		var transactions = parseAptLog(logText, index, 1);
+
+		var record = transactions[0];
 
 		// then second argument may be the property name
 
@@ -92,30 +214,31 @@ function main(logText) {
 	} else {
 		// list
 
-		propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
+		var blocks = getBlocks(logText);
 
-		// What's wrong with piping to tail? Meh. 
+
+		// propertyName = argv["_"][0] ? argv["_"][0] : propertyName;
+
+		/*
 		if(argv["limit"] && !isNaN(argv["limit"])) {
 			var sampleSize =argv["limit"];
 		} else {
 			var sampleSize = 10;
 		}
+		*/
 
 		// Having sample size bigger than actual data messes with indices
 		sampleSize = Math.min(sampleSize, transactions.length);
 
-		if((typeof(argv["from"]) !== "undefined") && !isNaN(argv["from"])) {
-			var tailOffset = parseInt(argv["from"]);
-		} else {
-			var tailOffset = transactions.length - sampleSize;
-		}
-
+		//if((typeof(argv["from"]) !== "undefined") && !isNaN(argv["from"])) {
+		//	var startIndex = parseInt(argv["from"]);
+		//} 
 
 		var output = [];
 
 
-		for (let i = transactions.length; i > 0; i--) {		// loop from the end
-			let t = transactions[i - 1]; // zero-based index
+		for (let i = blocks.length; i > 0; i--) {	// loop from the end
+			let t = getProperties(blocks[i - 1]);	// zero-based index
 			if (t[propertyName] !== undefined) {
 				output.unshift([t['_index'], t[propertyName]]); // this is one output line
 			}
@@ -145,21 +268,47 @@ function printRecord(record) {
 	console.dir(newRecord);
 }
 
-function parseAptLog(logText) {
+/*
+function getProperties(blockText, selectedProps) {
+	var lines = blockText.split("\n");
+	var hasSelectedProps = (selectedProps !== undefined) && (Array.isArray(electedProps));
+	var attributes = {};
+	lines.forEach(function(line){
+		var attributeTuple = line.split(': ',2);
+		if( attributeTuple.length == 2 && (!hasSelectedProps || hasSelectedProps.includes(attributesTuple[1])) )  {
+    		attributes[attributeTuple[0]] = attributeTuple[1];
+		}
+	})
+	return(attributes);
+}
+*/
+
+/*
+function getBlocks(text) {
+	return(text.split("\n\n"));
+}
+*/
+
+/*
+function parseAptLog(logText, start, size) {
 	// parse APT history log (string) into object
+
+
+	logText.split("\n\n").slice(start).map(function(transaction, n){
+    	var lines = transaction.split("\n");
+    	var attributes = {};
+    	lines.forEach(function(line){
+    		var attributeTuple = line.split(': ',2);
+    		if(attributeTuple.length == 2) {
+	    		attributes[attributeTuple[0]] = attributeTuple[1];
+    		}
+    	})
+    	attributes["_index"] = n + start;
+    	return(attributes);
+    })
 	return ( 
-		logText.split("\n\n").map(function(transaction, n){
-	    	var lines = transaction.split("\n");
-	    	var attributes = {};
-	    	lines.forEach(function(line){
-	    		var attributeTuple = line.split(': ',2);
-	    		if(attributeTuple.length == 2) {
-		    		attributes[attributeTuple[0]] = attributeTuple[1];
-	    		}
-	    	})
-	    	attributes["_index"] = n;
-	    	return(attributes);
-	    })
+
     );
 }
+*/
 
