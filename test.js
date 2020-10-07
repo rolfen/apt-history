@@ -8,6 +8,7 @@ const lib = require('./lib.js');
 const fs = require('fs');
 
 testGetEnv();
+testGetInputFh();
 
 function testGetEnv() {
 	const getEnv = lib.getEnv;
@@ -31,19 +32,15 @@ function testGetEnv() {
 }
 
 
-function testGetInputFh(env) {
-
-	var fh;
+function testGetInputFh() {
 
 	try {
-		fh = lib.getInputFh({
+		let fh = lib.getInputFh({
 			inputFilePath : './test/testdata/samplefile.txt',
 			isStdinInput : false
 		});
 	} catch (err) {
 		assert.fail("Opening regular file failed");
 	}
-
-
 
 }
