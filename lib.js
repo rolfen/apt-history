@@ -5,10 +5,10 @@
 const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
 
 const process = require('process');
-const argv = require('minimist')(process.argv.slice(2));
 const fs = require('fs');
 
-if(argv.help) {
+
+function printHelp() {
 	console.log("LIST");
 	console.log("  apt-history [<property>] [--from <N>] [--limit <N>]");
 	console.log("SINGLE ITEM");
@@ -20,9 +20,7 @@ if(argv.help) {
 	console.log("    Commandline, Requested-By, Install, Start-Date, End-Date, Purge, Remove");
 	console.log("  Defaults:");
 	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
-	return;
-} 
-
+}
 
 
 function getEnv(argv) {
@@ -172,5 +170,6 @@ function printRecord(record) {
 
 
 module.exports = {
-	'getEnv' : getEnv
+	'getEnv' : getEnv,
+	'printHelp' : printHelp
 };

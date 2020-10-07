@@ -2,33 +2,16 @@
 
 'use strict';
 
-const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
-
-const process = require('process');
 const argv = require('minimist')(process.argv.slice(2));
-const assert = require('assert').strict;
-const fs = require('fs');
 const lib = require('./lib.js');
 
 if(argv.help) {
-	console.log("LIST");
-	console.log("  apt-history [<property>] [--from <N>] [--limit <N>]");
-	console.log("SINGLE ITEM");
-	console.log("  apt-history <index> [<property>] [--as-apt-arguments]");
-	console.log("COMMON OPTIONS");
-	console.log("  Specify data: {--input <file>|--stdin}");
-	console.log("NOTES");
-	console.log("  Common APT properties:");
-	console.log("    Commandline, Requested-By, Install, Start-Date, End-Date, Purge, Remove");
-	console.log("  Defaults:");
-	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
+	lib.printHelp();
 	return;
 } 
 
 
 var env = lib.getEnv(argv);
-
-debugger;
 
 /*
 
