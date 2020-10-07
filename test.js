@@ -5,6 +5,7 @@
 const argv = require('minimist')(process.argv.slice(2));
 const assert = require('assert').strict;
 const lib = require('./lib.js');
+const fs = require('fs');
 
 testGetEnv();
 
@@ -25,6 +26,24 @@ function testGetEnv() {
 		selectedProperty : null
 	})
 	assert.equal(env.selectedProperty, 'SomeProp', "Manually select property")
+
+
+}
+
+
+function testGetInputFh(env) {
+
+	var fh;
+
+	try {
+		fh = lib.getInputFh({
+			inputFilePath : './test/testdata/samplefile.txt',
+			isStdinInput : false
+		});
+	} catch (err) {
+		assert.fail("Opening regular file failed");
+	}
+
 
 
 }

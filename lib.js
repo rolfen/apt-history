@@ -6,6 +6,9 @@ const process = require('process');
 const fs = require('fs');
 
 
+const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
+const DEFAULT_LIST_PROPERTY = "Commandline";
+
 function printHelp() {
 	console.log("LIST");
 	console.log("  apt-history [<property>] [--from <N>] [--limit <N>]");
@@ -20,6 +23,15 @@ function printHelp() {
 	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
 }
 
+
+var defaults = { 
+	'isListMode' : true,
+	'isStdinInput' : false,
+	'selectedProperty' : null,
+	'inputFilePath' : DEFAULT_LOG_FILE,
+	'sampleSize' : 10,
+	'startIndex' : null // null = automatic
+};
 
 function getEnv(argv, env) {
 	// builds the env (environment) object based on defaults and on command line arguments (argv) compiled by the minimist module
@@ -61,7 +73,7 @@ function getEnv(argv, env) {
 }
 
 
-function getInputFh(env, fs) {
+function getInputFh(env) {
 
 	// gets input file handle
 	
@@ -159,6 +171,8 @@ function printRecord(record) {
 
 
 module.exports = {
+	'defaults' : defaults,
 	'getEnv' : getEnv,
-	'printHelp' : printHelp
+	'printHelp' : printHelp,
+	'getInputFh' : getInputFh
 };
