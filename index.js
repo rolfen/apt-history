@@ -5,6 +5,20 @@
 const argv = require('minimist')(process.argv.slice(2));
 const lib = require('./lib.js');
 
+const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
+const DEFAULT_LIST_PROPERTY = "Commandline";
+
+
+var defaults = { 
+	'isListMode' : true,
+	'isStdinInput' : false,
+	'selectedProperty' : null,
+	'inputFilePath' : DEFAULT_LOG_FILE,
+	'sampleSize' : 10,
+	'startIndex' : null // null = automatic
+};
+
+
 if(argv.help) {
 	lib.printHelp();
 	return;

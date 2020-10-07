@@ -2,8 +2,6 @@
 
 'use strict';
 
-const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
-
 const process = require('process');
 const fs = require('fs');
 
@@ -23,19 +21,10 @@ function printHelp() {
 }
 
 
-function getEnv(argv) {
+function getEnv(argv, env) {
 	// builds the env (environment) object based on defaults and on command line arguments (argv) compiled by the minimist module
 
 	// parse command line arguments and set options
-
-	var env = { // defaults
-		'isListMode' : true,
-		'isStdinInput' : false,
-		'selectedProperty' : null,
-		'inputFilePath' : DEFAULT_LOG_FILE,
-		'sampleSize' : 10,
-		'startIndex' : null // null = automatic
-	};
 
 	if(!isNaN(argv["_"][0])) {
 		// first argument is a numerical index, show single record
@@ -49,7 +38,7 @@ function getEnv(argv) {
 		if(argv["_"][0]) {
 			env.selectedProperty = argv["_"][0];
 		} else {
-			env.selectedProperty = 'Commandline';
+			env.selectedProperty = DEFAULT_LIST_PROPERTY;
 		}
 	}
 

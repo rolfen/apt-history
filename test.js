@@ -14,11 +14,15 @@ function testGetEnv() {
 
 	env = lib.getEnv({
 		'_' : [23]
-	})
+	},{
+		isListMode : false
+	});
 	assert.equal(env.isListMode, false, "Numerical first argument triggers item mode")
 
 	env = lib.getEnv({
 		'_' : ['SomeProp']
+	}, {
+		selectedProperty : null
 	})
 	assert.equal(env.selectedProperty, 'SomeProp', "Manually select property")
 
