@@ -114,39 +114,40 @@ class ChunkReader {
 	}
 }
 
-class AptDataReader {
-	constructor(propFilter, itemFilter) {
+class ItemReader {
 
+	constructor(itemFilterPre, propFilter, itemFilterPost) {
+		
 	}
 
 	receiveItemText(text, index) {
-
+		
 	}
 
+	splitParagraph(paragraphText, propFilter) {
 
+		// splits paragraph into properties
 
-}
-
-function splitParagraph(paragraphText, propFilter) {
-
-	// splits paragraph into properties
-
-	var lines = paragraphText.split("\n");
-	var props = {};
-	lines.forEach(function(line){
-		var [propKey, propVal] = line.split(': ',2);
-		if ( propFilter ) {
-			let filteredProp = propFilter(propKey, propVal);
-			if(filteredProp && Array.isArray(filteredProp) ) {
-				props[filteredProp[0]] = filteredProp[1];
+		var lines = paragraphText.split("\n");
+		var props = {};
+		lines.forEach(function(line){
+			var [propKey, propVal] = line.split(': ',2);
+			if ( propFilter ) {
+				let filteredProp = propFilter(propKey, propVal);
+				if(filteredProp && Array.isArray(filteredProp) ) {
+					props[filteredProp[0]] = filteredProp[1];
+				}
+			} else {
+				props[propKey] = propVal;
 			}
-		} else {
-			props[propKey] = propVal;
-		}
-	})
+		})
 
-	return props;
+		return props;
+	}
+
 }
+
+
 
 
 class Results {
@@ -188,5 +189,5 @@ module.exports = {
 	'getInput' : getInput,
 	'ChunkReader' : ChunkReader,
 	'Results' : Results,
-	'splitParagraph' : splitParagraph
+	'ItemReader' : ItemReader
 };
