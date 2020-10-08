@@ -16,11 +16,11 @@ var env = lib.getEnv(argv, lib.defaults);
 var res = new lib.Results();
 
 var chunkReader = new lib.ChunkReader( (paragraphText, index) => {
-	var propGroup = lib.splitParagraph(paragraphText, env.selectedProperty);
-	res.pushPropGroup(propGroup, index);
+	var propGroup = lib.splitParagraph(paragraphText, 'Upgrade');
+	res.pushItem(propGroup, index);
 } );
 
-lib.getInput('./test/stdin/short_history_sample.log', 
+lib.getInput('./test/stdin/history_sample.log', 
 	(chunk) => {
 		chunkReader.receive(chunk);
 	},

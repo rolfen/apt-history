@@ -98,7 +98,6 @@ class ChunkReader {
 	receive(chunk) {
 		let split = chunk.split("\n\n");
 		this.buffer += split[0];
-		debugger;
 		if(split.length > 1) {
 			split.slice(1).forEach((slice) => {
 				this.paragraphHandler(this.buffer, this.index);
@@ -115,7 +114,20 @@ class ChunkReader {
 	}
 }
 
-function splitParagraph(paragraphText, selectedProperty) {
+class AptDataReader {
+	constructor(propFilter, itemFilter) {
+
+	}
+
+	receiveItemText(text, index) {
+
+	}
+
+
+
+}
+
+function splitParagraph(paragraphText, propFilter) {
 
 	// splits paragraph into properties
 
@@ -123,10 +135,13 @@ function splitParagraph(paragraphText, selectedProperty) {
 	var props = {};
 	lines.forEach(function(line){
 		var [propKey, propVal] = line.split(': ',2);
-		if( propKey )  {
-			if ( !selectedProperty || (selectedProperty == propKey) ) {
-	    		props[propKey] = propVal;
+		if ( propFilter ) {
+			let filteredProp = propFilter(propKey, propVal);
+			if(filteredProp && Array.isArray(filteredProp) ) {
+				props[filteredProp[0]] = filteredProp[1];
 			}
+		} else {
+			props[propKey] = propVal;
 		}
 	})
 
@@ -142,8 +157,8 @@ class Results {
 		this.data = [];
 	}
 
-	pushPropGroup(properties, index) {
-		this.data.push({'index': index, 'properties': properties });
+	pushItem(item, index) {
+		this.data.push({'index': index, 'item': item });
 	}
 }
 

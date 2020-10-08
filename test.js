@@ -87,7 +87,7 @@ function testSplitParagraph() {
 	);
 
 	assert.deepEqual(
-		lib.splitParagraph(sample.join("\n"), "End-Date"),
+		lib.splitParagraph(sample.join("\n"), (propKey, propVal) => ((propKey == "End-Date") ? ['End-Date', propVal] : null) ),
 		{"End-Date": "2019-08-23  13:07:39"},
 		"splitParagraph() with filtered property"
 	);
