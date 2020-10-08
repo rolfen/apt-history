@@ -6,8 +6,6 @@ const argv = require('minimist')(process.argv.slice(2));
 const lib = require('./lib.js');
 
 
-
-
 if(argv.help) {
 	lib.printHelp();
 	return;
@@ -15,6 +13,22 @@ if(argv.help) {
 
 
 var env = lib.getEnv(argv, lib.defaults);
+var res = new lib.Results();
+
+var chunkReader = new lib.ChunkReader( (paragraphText, index) => {
+	var propGroup = lib.splitParagraph(paragraphText, env.selectedProperty);
+	res.pushPropGroup(propGroup, index);
+} );
+
+lib.getInput('./test/stdin/short_history_sample.log', 
+	(chunk) => {
+		chunkReader.receive(chunk);
+	},
+	() => {
+		chunkReader.end();
+		console.dir(res.data);
+	} 
+);
 
 /*
 

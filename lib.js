@@ -85,10 +85,7 @@ function getInput(inputFilePath, onData, onEnd) {
 
 	fh.setEncoding('utf8');
 	fh.on('data', onData);
-	fh.on('end', () => {
-		fs.close(fd);
-		onEnd();
-	});
+	fh.on('end', onEnd);
 
 }
 
@@ -101,6 +98,7 @@ class ChunkReader {
 	receive(chunk) {
 		let split = chunk.split("\n\n");
 		this.buffer += split[0];
+		debugger;
 		if(split.length > 1) {
 			split.slice(1).forEach((slice) => {
 				this.paragraphHandler(this.buffer, this.index);
@@ -140,8 +138,7 @@ class Results {
 
 	// holds selected data
 
-	constructor(env) {
-		this.env = env;
+	constructor() {
 		this.data = [];
 	}
 
@@ -175,5 +172,6 @@ module.exports = {
 	'printHelp' : printHelp,
 	'getInput' : getInput,
 	'ChunkReader' : ChunkReader,
+	'Results' : Results,
 	'splitParagraph' : splitParagraph
 };
