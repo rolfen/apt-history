@@ -10,6 +10,7 @@ const fs = require('fs');
 try {
 	testGetEnv();
 	testChunkReader();
+	testSplitParagraph();
 } catch(err) {
 	console.dir(err);
 }
@@ -64,6 +65,33 @@ function testChunkReader() {
 		paragraphs,
 		"Expected data does not match"
 	);
+}
+
+function testSplitParagraph() {
+	var sample = [
+		"Start-Date: 2019-08-23  13:07:39",
+		"Commandline: /usr/bin/unattended-upgrade",
+		"Upgrade: libqt5sql5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)",
+		"End-Date: 2019-08-23  13:07:39"
+	];
+
+	assert.deepEqual(
+		lib.splitParagraph(sample.join("\n")),
+		{
+			"Start-Date": "2019-08-23  13:07:39",
+			"Commandline": "/usr/bin/unattended-upgrade",
+			"Upgrade": "libqt5sql5:amd64 (5.11.3+dfsg1-2+b1, 5.11.3+dfsg1-4)",
+			"End-Date": "2019-08-23  13:07:39"
+		},
+		"splitParagraph() (unfiltered)"
+	);
+
+	assert.deepEqual(
+		lib.splitParagraph(sample.join("\n"), "End-Date"),
+		{"End-Date": "2019-08-23  13:07:39"},
+		"splitParagraph() with filtered property"
+	);
+
 }
 
 /*

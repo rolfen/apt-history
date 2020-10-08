@@ -73,22 +73,23 @@ function getEnv(argv, env) {
 }
 
 
-function getInput(env, onData, onEnd) {
+function getInput(inputFilePath, onData, onEnd) {
 
-	
 	var fh;
 	
-	if(env.isStdinInput) {
-		fh = process.stdin;
+	if(inputFilePath) {
+		fh = fs.createReadStream(inputFilePath);		
 	} else {
-		fh = fs.createReadStream(env.inputFilePath);
+		fh = process.stdin;
 	}
 
 	fh.setEncoding('utf8');
 	fh.on('data', onData);
-	fh.on('end', onEnd);
+	fh.on('end', () => {
+		fs.close(fd);
+		onEnd();
+	});
 
-	return fh;
 }
 
 class ChunkReader {
@@ -173,5 +174,6 @@ module.exports = {
 	'getEnv' : getEnv,
 	'printHelp' : printHelp,
 	'getInput' : getInput,
-	'ChunkReader' : ChunkReader
+	'ChunkReader' : ChunkReader,
+	'splitParagraph' : splitParagraph
 };
