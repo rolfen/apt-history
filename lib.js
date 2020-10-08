@@ -73,9 +73,8 @@ function getEnv(argv, env) {
 }
 
 
-function getInputFh(env) {
+function getInput(env, onData, onEnd) {
 
-	// gets input file handle
 	
 	var fh;
 	
@@ -84,56 +83,55 @@ function getInputFh(env) {
 	} else {
 		fh = fs.createReadStream(env.inputFilePath);
 	}
-	
+
+	fh.setEncoding('utf8');
+	fh.on('data', onData);
+	fh.on('end', onEnd);
+
 	return fh;
 }
 
-
-function readFh(env, results, fh, onParagraph) {
-
-	// reads text stream from opened file handle fh and calls onParagraph for every encountered paragraph
-
-	var index = 0;
-	var buffer = '';
-
-	fh.setEncoding('utf8');
-
-	fh.on('data', function (chunk) {
+class ChunkReader {
+	constructor(paragraphHandler) {
+		this.index = 0;
+		this.buffer = '';
+		this.paragraphHandler = paragraphHandler;
+	}
+	receive(chunk) {
 		let split = chunk.split("\n\n");
-		buffer += split[0];
+		this.buffer += split[0];
 		if(split.length > 1) {
 			split.slice(1).forEach((slice) => {
-				onParagraph(env, results, buffer, index);
-				buffer = '';
-				index ++;
-				buffer += slice;
+				this.paragraphHandler(this.buffer, this.index);
+				this.buffer = '';
+				this.index ++;
+				this.buffer += slice;
 			});
 		}
-	});
-
-	fh.on('end', function() {
-		if (buffer.length > 0) {
-			onParagraph(env, results, buffer, index);
+	}
+	end() {
+		if (this.buffer.length > 0) {
+			this.paragraphHandler(this.buffer, this.index);
 		}
-	});
+	}
 }
 
+function splitParagraph(paragraphText, selectedProperty) {
 
-function paragraphReceived(env, results, paragraphText, index) {
-
-	// processed paragraph text; splits it into properties, filter them, and push the results to results object
+	// splits paragraph into properties
 
 	var lines = paragraphText.split("\n");
 	var props = {};
 	lines.forEach(function(line){
 		var [propKey, propVal] = line.split(': ',2);
 		if( propKey )  {
-			if ( !env.selectedProperty || (env.selectedProperty == propKey) ) {
+			if ( !selectedProperty || (selectedProperty == propKey) ) {
 	    		props[propKey] = propVal;
 			}
 		}
 	})
-	results.pushParagraph(props, index);
+
+	return props;
 }
 
 
@@ -146,7 +144,7 @@ class Results {
 		this.data = [];
 	}
 
-	pushParagraph(properties, index) {
+	pushPropGroup(properties, index) {
 		this.data.push({'index': index, 'properties': properties });
 	}
 }
@@ -174,5 +172,6 @@ module.exports = {
 	'defaults' : defaults,
 	'getEnv' : getEnv,
 	'printHelp' : printHelp,
-	'getInputFh' : getInputFh
+	'getInput' : getInput,
+	'ChunkReader' : ChunkReader
 };
