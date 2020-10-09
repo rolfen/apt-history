@@ -45,6 +45,7 @@ function getEnv(argv, env) {
 			// second argument may be the property name
 			env.selectedProperty = argv["_"][1];
 		}
+		env.sampleSize = 1;
 	} else {
 		// list mode
 		if(argv["_"][0]) {
@@ -52,6 +53,9 @@ function getEnv(argv, env) {
 		} else {
 			env.selectedProperty = DEFAULT_LIST_PROPERTY;
 		}
+		if(argv["limit"] && !isNaN(argv["limit"])) {
+			env.sampleSize = argv["limit"];
+		} 
 	}
 
 	if(argv.s || argv.stdin) {
@@ -60,9 +64,6 @@ function getEnv(argv, env) {
 		env.inputFilePath = argv.input;
 	}
 
-	if(argv["limit"] && !isNaN(argv["limit"])) {
-		env.sampleSize = argv["limit"];
-	} 
 
 	if(argv["from"] && !isNaN(argv["from"])) {
 		env.startIndex = parseInt(argv["from"]);
@@ -73,19 +74,37 @@ function getEnv(argv, env) {
 }
 
 
-function getInput(inputFilePath, onData, onEnd) {
+class Input {
 
-	var fh;
-	
-	if(inputFilePath) {
-		fh = fs.createReadStream(inputFilePath);		
-	} else {
-		fh = process.stdin;
+	constructor(inputFilePath, onData, onEnd) {
+		var fh;
+		
+		if(inputFilePath) {
+			fh = fs.createReadStream(inputFilePath);		
+		} else {
+			fh = process.stdin;
+		}
+
+		fh.setEncoding('utf8');
+
+		this.fh = fh;
+		this.onData = onData;
+		this.onEnd = onEnd;
+
 	}
 
-	fh.setEncoding('utf8');
-	fh.on('data', onData);
-	fh.on('end', onEnd);
+	process() {
+
+		// node starts the input stream when a data event is added
+
+		this.fh.on('end', this.onEnd);		
+		this.fh.on('close', this.onEnd);		
+		this.fh.on('data', this.onData);
+	}
+
+	close() {
+		this.fh.destroy();
+	}
 
 }
 
@@ -94,6 +113,7 @@ class ChunkReader {
 		this.index = 0;
 		this.buffer = '';
 		this.paragraphHandler = paragraphHandler;
+		this.isEnded = false;
 	}
 	receive(chunk) {
 		let split = chunk.split("\n\n");
@@ -114,43 +134,32 @@ class ChunkReader {
 	}
 }
 
-class ItemReader {
 
-	constructor(itemFilterPre, propFilter, itemFilterPost) {
-		
-	}
+function splitParagraph(paragraphText, propFilter) {
 
-	receiveItemText(text, index) {
-		
-	}
+	// splits paragraph into properties
 
-	splitParagraph(paragraphText, propFilter) {
-
-		// splits paragraph into properties
-
-		var lines = paragraphText.split("\n");
-		var props = {};
-		lines.forEach(function(line){
-			var [propKey, propVal] = line.split(': ',2);
-			if ( propFilter ) {
-				let filteredProp = propFilter(propKey, propVal);
-				if(filteredProp && Array.isArray(filteredProp) ) {
-					props[filteredProp[0]] = filteredProp[1];
-				}
-			} else {
-				props[propKey] = propVal;
+	var lines = paragraphText.split("\n");
+	var props = {};
+	lines.forEach(function(line){
+		var [propKey, propVal] = line.split(': ',2);
+		if ( propFilter ) {
+			let filteredProp = propFilter(propKey, propVal);
+			if(filteredProp && Array.isArray(filteredProp) ) {
+				props[filteredProp[0]] = filteredProp[1];
 			}
-		})
+		} else {
+			props[propKey] = propVal;
+		}
+	})
 
-		return props;
-	}
-
+	return props;
 }
 
 
 
 
-class Results {
+class Output {
 
 	// holds selected data
 
@@ -161,6 +170,7 @@ class Results {
 	pushItem(item, index) {
 		this.data.push({'index': index, 'item': item });
 	}
+
 }
 
 
@@ -186,8 +196,8 @@ module.exports = {
 	'defaults' : defaults,
 	'getEnv' : getEnv,
 	'printHelp' : printHelp,
-	'getInput' : getInput,
+	'Input' : Input,
 	'ChunkReader' : ChunkReader,
-	'Results' : Results,
-	'ItemReader' : ItemReader
+	'Output' : Output,
+	'splitParagraph' : splitParagraph
 };

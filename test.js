@@ -76,7 +76,7 @@ function testSplitParagraph() {
 	];
 
 	assert.deepEqual(
-		lib.ItemReader.prototype.splitParagraph(sample.join("\n")),
+		lib.splitParagraph(sample.join("\n")),
 		{
 			"Start-Date": "2019-08-23  13:07:39",
 			"Commandline": "/usr/bin/unattended-upgrade",
@@ -87,7 +87,7 @@ function testSplitParagraph() {
 	);
 
 	assert.deepEqual(
-		lib.ItemReader.prototype.splitParagraph(sample.join("\n"), (propKey, propVal) => ((propKey == "End-Date") ? ['End-Date', propVal] : null) ),
+		lib.splitParagraph(sample.join("\n"), (propKey, propVal) => ((propKey == "End-Date") ? ['End-Date', propVal] : null) ),
 		{"End-Date": "2019-08-23  13:07:39"},
 		"splitParagraph() with filtered property"
 	);

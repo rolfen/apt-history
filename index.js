@@ -13,22 +13,43 @@ if(argv.help) {
 
 
 var env = lib.getEnv(argv, lib.defaults);
-var res = new lib.Results();
+var out = new lib.Output();
 
-var chunkReader = new lib.ChunkReader( (paragraphText, index) => {
-	var propGroup = lib.splitParagraph(paragraphText, 'Upgrade');
-	res.pushItem(propGroup, index);
-} );
 
-lib.getInput('./test/stdin/history_sample.log', 
+var propFilter = (propKey, propVal) => {
+	if(propKey == res.selecteProperty) {
+		return [propKey, propVal];
+	}
+}
+
+
+var chunkReader = new lib.ChunkReader();
+
+
+var input = new lib.Input('./test/stdin/history_sample.log', 
 	(chunk) => {
 		chunkReader.receive(chunk);
 	},
 	() => {
 		chunkReader.end();
-		console.dir(res.data);
+		console.dir(out.data);
 	} 
 );
+
+chunkReader.paragraphHandler = (paragraphText, index) => {
+	if(isNaN(env.startIndex) || index >= env.startIndex) {
+		var propGroup = lib.splitParagraph(paragraphText, (env.selecteProperty ? propFilter : null) );
+		if((Object.keys(propGroup).length > 0)) {
+			if (out.data.length < env.sampleSize ) {
+				out.pushItem(propGroup, index);
+			} else {
+				input.close();
+			}
+		}			
+	}
+}
+
+input.process();
 
 /*
 
