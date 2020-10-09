@@ -80,7 +80,7 @@ class Input {
 		var fh;
 		
 		if(inputFilePath) {
-			fh = fs.createReadStream(inputFilePath);		
+			fh = fs.createReadStream(inputFilePath, { highWaterMark: 2 * 1024 });		
 		} else {
 			fh = process.stdin;
 		}
