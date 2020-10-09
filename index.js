@@ -17,7 +17,7 @@ var out = new lib.Output();
 
 
 var propFilter = (propKey, propVal) => {
-	if(propKey == res.selecteProperty) {
+	if(propKey == env.selectedProperty) {
 		return [propKey, propVal];
 	}
 }
@@ -26,19 +26,19 @@ var propFilter = (propKey, propVal) => {
 var chunkReader = new lib.ChunkReader();
 
 
-var input = new lib.Input('./test/stdin/history_sample.log', 
+var input = new lib.Input(env.inputFilePath, 
 	(chunk) => {
 		chunkReader.receive(chunk);
 	},
 	() => {
 		chunkReader.end();
-		console.dir(out.data);
+		out.printAsList();
 	} 
 );
 
 chunkReader.paragraphHandler = (paragraphText, index) => {
 	if(isNaN(env.startIndex) || index >= env.startIndex) {
-		var propGroup = lib.splitParagraph(paragraphText, (env.selecteProperty ? propFilter : null) );
+		var propGroup = lib.splitParagraph(paragraphText, (env.selectedProperty ? propFilter : null) );
 		if((Object.keys(propGroup).length > 0)) {
 			if (out.data.length < env.sampleSize ) {
 				out.pushItem(propGroup, index);

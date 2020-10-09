@@ -28,7 +28,7 @@ var defaults = {
 	'isListMode' : true,
 	'isStdinInput' : false,
 	'selectedProperty' : null,
-	'inputFilePath' : DEFAULT_LOG_FILE,
+	'inputFilePath' : null,
 	'sampleSize' : 10,
 	'startIndex' : null // null = automatic
 };
@@ -62,6 +62,8 @@ function getEnv(argv, env) {
 		env.isStdinInput = true;
 	} else if(argv.input) {
 		env.inputFilePath = argv.input;
+	} else {
+		env.inputFilePath = DEFAULT_LOG_FILE;
 	}
 
 
@@ -167,29 +169,19 @@ class Output {
 		this.data = [];
 	}
 
-	pushItem(item, index) {
-		this.data.push({'index': index, 'item': item });
+	pushItem(properties, index) {
+		this.data.push({'index': index, 'properties': properties });
+	}
+
+	printAsList() {
+		this.data.forEach( (item) => {
+			console.log( [ item.index, ...Object.values(item.properties)].join("\t") );
+		});
 	}
 
 }
 
 
-function printList(arr) {
-	var str = arr.map((row) => {
-		return(row.join("\t"));
-	}).join("\n");
-	console.log(str);
-}
-
-function printProperty(str) {
-	console.log(str);
-}
-
-function printRecord(record) {
-	var newRecord = Object.assign({}, record);
-	delete newRecord._index;
-	console.dir(newRecord);
-}
 
 
 module.exports = {
