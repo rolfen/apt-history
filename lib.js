@@ -167,7 +167,7 @@ class Output {
 
 	constructor() {
 		this.data = [];
-		this.printList = console.log;
+		this.printLine = console.log;
 		this.printObject = console.dir;
 	}
 
