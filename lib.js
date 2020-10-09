@@ -167,6 +167,8 @@ class Output {
 
 	constructor() {
 		this.data = [];
+		this.printList = console.log;
+		this.printObject = console.dir;
 	}
 
 	pushItem(properties, index) {
@@ -175,7 +177,7 @@ class Output {
 
 	printAsList() {
 		this.data.forEach( (item) => {
-			console.log( [ item.index, ...Object.values(item.properties)].join("\t") );
+			this.printLine( [ item.index, ...Object.values(item.properties)].join("\t") );
 		});
 	}
 
