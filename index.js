@@ -37,7 +37,9 @@ var input = new lib.Input(env.inputFilePath,
 );
 
 chunkReader.paragraphHandler = (paragraphText, index) => {
-	if(isNaN(env.startIndex) || index >= env.startIndex) {
+	if(isNaN(env.startIndex)) {
+
+	} else if(index >= env.startIndex) {
 		var propGroup = lib.splitParagraph(paragraphText, (env.selectedProperty ? propFilter : null) );
 		if((Object.keys(propGroup).length > 0)) {
 			if (out.data.length < env.sampleSize ) {
@@ -49,7 +51,7 @@ chunkReader.paragraphHandler = (paragraphText, index) => {
 	}
 }
 
-input.process();
+input.begin();
 
 /*
 

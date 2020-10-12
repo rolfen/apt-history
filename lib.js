@@ -95,7 +95,7 @@ class Input {
 
 	}
 
-	process() {
+	begin() {
 
 		// node starts the input stream when a data event is added
 
