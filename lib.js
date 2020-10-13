@@ -4,6 +4,7 @@
 
 const process = require('process');
 const fs = require('fs');
+const fsR = require('fs-reverse');
 
 
 const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
@@ -76,36 +77,75 @@ function getEnv(argv, env) {
 }
 
 
+function oopsie(desc) {
+	if(typeof desc === 'object' && desc !== null) {
+		throw new Error(JSON.stringify(desc));
+	} else {
+		throw new Error(desc)
+	}
+}
+
 class Input {
 
-	constructor(inputFilePath, onData, onEnd) {
-		var fh;
+	constructor(inputFilePath, onData, onEnd, reverse) {
 		
-		if(inputFilePath) {
-			fh = fs.createReadStream(inputFilePath, { highWaterMark: 2 * 1024 });		
-		} else {
-			fh = process.stdin;
-		}
+		this.inputFilePath = inputFilePath;
 
-		fh.setEncoding('utf8');
-
-		this.fh = fh;
 		this.onData = onData;
 		this.onEnd = onEnd;
+		this.stream = undefined;
 
 	}
 
 	begin() {
+		this.makeStream((err, stream) => {
+			if(err) {
+				oopsie(err);
+			} else {
+				this.stream = stream;
+				this.startInput();
+			}
+		});
+	}
+
+	makeStream(callback) {
+		var openCallback = (err, fd) => {
+			var stream;
+			if(err) {
+				callback(err, null);
+			} else {
+				stream = fs.createReadStream("", { 
+					highWaterMark: 2 * 1024,
+					fd : fd
+				});
+
+				stream.setEncoding('utf8');
+
+		        // if (e.code === 'EAGAIN') {
+		        // }
+		        callback(null, stream);
+		
+			}
+		}
+
+		if(this.inputFilePath ) {
+			fs.open(this.inputFilePath, 'r', openCallback);
+		} else {
+			openCallback(null, process.stdin.fd);
+		}
+	}
+
+	startInput() {
 
 		// node starts the input stream when a data event is added
 
-		this.fh.on('end', this.onEnd);		
-		this.fh.on('close', this.onEnd);		
-		this.fh.on('data', this.onData);
+		this.stream.on('end', this.onEnd);		
+		this.stream.on('close', this.onEnd);	
+		this.stream.on('data', this.onData);
 	}
 
 	close() {
-		this.fh.destroy();
+		this.stream.destroy();
 	}
 
 }
