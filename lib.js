@@ -4,7 +4,6 @@
 
 const process = require('process');
 const fs = require('fs');
-const fsR = require('fs-reverse');
 
 
 const DEFAULT_LOG_FILE = "/var/log/apt/history.log";
@@ -87,7 +86,7 @@ function oopsie(desc) {
 
 class Input {
 
-	constructor(inputFilePath, onData, onEnd, reverse) {
+	constructor(inputFilePath, onData, onEnd) {
 		
 		this.inputFilePath = inputFilePath;
 

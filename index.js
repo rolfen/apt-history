@@ -33,7 +33,7 @@ var input = new lib.Input(env.inputFilePath,
 	() => {
 		chunkReader.end();
 		out.printAsList();
-	} 
+	}
 );
 
 chunkReader.paragraphHandler = (paragraphText, index) => {
