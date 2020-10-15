@@ -11,6 +11,7 @@ try {
 	testGetEnv();
 	testChunkReader();
 	testSplitParagraph();
+	testOutput();
 } catch(err) {
 	console.dir(err);
 }
@@ -92,6 +93,29 @@ function testSplitParagraph() {
 		"splitParagraph() with filtered property"
 	);
 
+}
+
+function testOutput() {
+	var lines = [];
+	var out = new lib.Output();
+	out.printLine = (line) => {
+		lines.push(line);
+	}
+	out.pushItem({
+		Commandline : "apt-get install nukall",
+	}, 10);
+	out.pushItem({
+		Commandline : "apt-get install apt-history",
+	}, 11);
+	out.printAsList();
+	assert.deepEqual(
+		lines,
+		[
+			"10\tapt-get install nukall",
+			"11\tapt-get install apt-history",
+		],
+		"Basic tabular output"
+	)
 }
 
 /*
