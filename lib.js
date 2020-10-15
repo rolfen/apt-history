@@ -138,7 +138,7 @@ class Input {
 
 		// node starts the input stream when a data event is added
 
-		this.stream.on('end', this.onEnd);		
+		// this.stream.on('end', this.onEnd);		
 		this.stream.on('close', this.onEnd);	
 		this.stream.on('data', this.onData);
 	}
