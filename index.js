@@ -32,7 +32,11 @@ var input = new lib.Input(env.inputFilePath,
 	},
 	() => {
 		chunkReader.end();
-		out.printAsList();
+		if(env.isListMode) {
+			out.printAsList();
+		} else {
+			out.printObject(out.data[0].properties);
+		}
 	}
 );
 

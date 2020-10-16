@@ -38,14 +38,19 @@ function getEnv(argv, env) {
 
 	// parse command line arguments and set options
 
+	if(argv["from"] && !isNaN(argv["from"])) {
+		env.startIndex = parseInt(argv["from"]);
+	}
+
 	if(!isNaN(argv["_"][0])) {
 		// first argument is a numerical index, show single record
 		env.isListMode = false;
+		env.startIndex = argv["_"][0];
+		env.sampleSize = 1;
 		if(argv["_"][1]) {
 			// second argument may be the property name
 			env.selectedProperty = argv["_"][1];
 		}
-		env.sampleSize = 1;
 	} else {
 		// list mode
 		if(argv["_"][0]) {
@@ -64,11 +69,6 @@ function getEnv(argv, env) {
 		env.inputFilePath = argv.input;
 	} else {
 		env.inputFilePath = DEFAULT_LOG_FILE;
-	}
-
-
-	if(argv["from"] && !isNaN(argv["from"])) {
-		env.startIndex = parseInt(argv["from"]);
 	}
 
 	return env;
