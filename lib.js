@@ -94,6 +94,8 @@ class Input {
 		this.onEnd = onEnd;
 		this.stream = undefined;
 
+		this.isClosing = false;
+
 	}
 
 	begin() {
@@ -144,7 +146,8 @@ class Input {
 	}
 
 	close() {
-		this.stream.destroy();
+		!this.isClosing && this.stream.destroy();
+		this.isClosing = true;
 	}
 
 }

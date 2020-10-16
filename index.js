@@ -37,13 +37,19 @@ var input = new lib.Input(env.inputFilePath,
 );
 
 chunkReader.paragraphHandler = (paragraphText, index) => {
-	if(isNaN(env.startIndex)) {
-
+	if(env.startIndex === null) {
+		var properties = lib.splitParagraph(paragraphText, (env.selectedProperty ? propFilter : null) );
+		if((Object.keys(properties).length > 0)) {
+			out.pushItem(properties, index);
+			if (out.data.length > env.sampleSize ) {
+				out.data.shift();
+			} 
+		}	
 	} else if(index >= env.startIndex) {
-		var propGroup = lib.splitParagraph(paragraphText, (env.selectedProperty ? propFilter : null) );
-		if((Object.keys(propGroup).length > 0)) {
+		var properties = lib.splitParagraph(paragraphText, (env.selectedProperty ? propFilter : null) );
+		if((Object.keys(properties).length > 0)) {
 			if (out.data.length < env.sampleSize ) {
-				out.pushItem(propGroup, index);
+				out.pushItem(properties, index);
 			} else {
 				input.close();
 			}
