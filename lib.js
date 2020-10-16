@@ -20,12 +20,11 @@ function printHelp() {
 	console.log("  Common APT properties:");
 	console.log("    Commandline, Requested-By, Install, Start-Date, End-Date, Purge, Remove");
 	console.log("  Defaults:");
-	console.log("    apt-history Commandline --from 0 --limit 5 --input " + defaultLogFile);
+	console.log("    apt-history Commandline --from 0 --limit 5 --input " + DEFAULT_LOG_FILE);
 }
 
 
 var defaults = { 
-	'isListMode' : true,
 	'isStdinInput' : false,
 	'selectedProperty' : null,
 	'inputFilePath' : null,
@@ -44,7 +43,6 @@ function getEnv(argv, env) {
 
 	if(!isNaN(argv["_"][0])) {
 		// first argument is a numerical index, show single record
-		env.isListMode = false;
 		env.startIndex = argv["_"][0];
 		env.sampleSize = 1;
 		if(argv["_"][1]) {
