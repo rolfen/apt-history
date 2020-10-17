@@ -29,6 +29,7 @@ var defaults = {
 	'selectedProperty' : null,
 	'inputFilePath' : null,
 	'sampleSize' : 10,
+	'aptFormat' : false,
 	'startIndex' : null // null = automatic
 };
 
@@ -68,6 +69,10 @@ function getEnv(argv, env) {
 	} else {
 		env.inputFilePath = DEFAULT_LOG_FILE;
 	}
+
+	if (argv["as-apt-arguments"]) {
+		env.aptFormat = true;
+	} 
 
 	return env;
 
@@ -220,7 +225,6 @@ class Output {
 			this.printLine( [ item.index, ...Object.values(item.properties)].join("\t") );
 		});
 	}
-
 }
 
 

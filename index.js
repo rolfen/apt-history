@@ -33,7 +33,11 @@ var input = new lib.Input(env.inputFilePath,
 	() => {													// done parsing input
 		chunkReader.end();
 		if(env.sampleSize == 1) {
-			out.printObject(out.data[0].properties);
+			if(env.selectedProperty && env.aptFormat) {
+				out.printLine(out.data[0].properties[env.selectedProperty].replace(/\([^\(]+\)/g,'').replace(/ , /g,' ').trim());
+			} else {
+				out.printObject(out.data[0].properties);
+			}
 		} else {
 			out.printAsList();
 		}
