@@ -44,6 +44,13 @@ var input = new lib.Input(env.inputFilePath,
 	}
 );
 
+/* 
+ * TODO:
+ * Move part of the code below to inside classes. 
+ * For example, we could move the logic which limits data size to the out class and add a property out.dataSizeLimit or out.maxItems
+ */
+
+
 chunkReader.paragraphHandler = (paragraphText, index) => {
 
 	var properties = lib.splitParagraph(paragraphText, (env.selectedProperty ? propFilter : null) );
